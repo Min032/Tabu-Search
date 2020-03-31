@@ -12,6 +12,8 @@
 \usepackage{subcaption}
 \usepackage{listings}
 \usepackage[justification=centering]{caption}
+\usepackage[tableposition = top]{caption}
+
 \hypersetup{colorlinks,citecolor=green,filecolor=green,linkcolor=blue,urlcolor=blue}
 
 \usepackage{listings}
@@ -199,7 +201,30 @@ Ovo je osnovni oblik algoritma tabu pretrage, primenjen na problem N-dama. Prika
                     broj_prekrsaja(trenutna_konfiguracija + potez)]
 \end{lstlisting}
 
-Moguće je dodati i dugoročnu memoriju, tako što pamtimo konfiguracije sa malo prekršaja, na koje se možemo vraćati nakon određenog broja iteracija ili male promene u poboljšanju, i time restartovati pretragu od tog trenutka. Implementacija ovog problema u programskom jeziku Python priložena je uz rad. U ovoj konkretnoj implementaciji, dovoljna diverzifikacija je bila resetovanje pretrage i traženje optimalnog rešenja nad svim iteracijama. Parametri za broj resetovanja, broj iteracija svake pretrage i dužinu tabu liste određeni su eksperimentalno.
+Moguće je dodati i dugoročnu memoriju, tako što pamtimo konfiguracije sa malo prekršaja, na koje se možemo vraćati nakon određenog broja iteracija ili male promene u poboljšanju, i time restartovati pretragu od tog trenutka. Implementacija ovog problema u programskom jeziku Python priložena je uz rad. U ovoj konkretnoj implementaciji, dovoljna diverzifikacija je bila resetovanje pretrage i traženje optimalnog rešenja nad svim iteracijama. Parametri za broj resetovanja, broj iteracija svake pretrage i dužinu tabu liste određeni su eksperimentalno, kompletni rezultati se mogu naći u dodatku \ref{appendix:a}.  Neki od najboljih rezultata prikazani su u tabeli \ref{tab:dame}.\\
+
+\begin{center}
+\begin{table}[h]
+\caption[long]{Testirane kombinacije parametara koje su se dobro pokazale i odgovarajuće vreme}
+\label{tab:dame}
+
+\begin{tabular}{| c c c |}
+ \hline
+ Maksimalni broj iteracija & Dužina tabu liste & Prosečno vreme za N=20 (\textit{s}) \\ 
+ \hline
+ 60 & 11 & 0.637598 \\  
+ 90 & 16 & 0.770418 \\  
+ 80 & 16 & 0.805036 \\ 
+ 50 & 16 & 0.961352 \\ 
+ 90 & 6  & 1.001105 \\ 
+ 70 & 6  & 1.090587 \\ 
+ 90 & 11 & 1.108473 \\ 
+ 70 & 21 & 1.135153 \\ 
+ 50 & 11 & 1.187593 \\ 
+ \hline
+\end{tabular}
+\end{table}
+\end{center}
 
 \subsection{Primena tabu pretrage na CFLP}
 U svom najjednostavnijem obliku, \textbf{problem rasporeda objekata} (eng. \textit{facility location problem - FLP}) je problem nalaženja tačke na ravni, takve da je suma rastojanja od ove tačke do N ciljnih tačaka najmanja (\textbf{Veberov problem}) \cite{weber}. Kompleksije varijante ovog problema bave se postavljanjem više objekata, zadovoljavanjem ograničenja oko njihovih lokacija (npr. radioaktivni objekti ne smeju biti blizu naseljenih mesta) i optimizacijom dodatnih kriterijuma (npr. blizina konkurentnih objekata).\\
@@ -268,7 +293,7 @@ algoritam TabuPretraga:
 
 Direktna implementacija ovog pseudokoda je uvek uspevala da poboljša početno rešenje, međutim često je bila jako neefikasna, i rešenja nisu mnogo napredovala. Diverzifikacija nije mnogo pomogla, kao ni podešavanje parametara dužine tabu liste i broja iteracija. Međutim, uvođenje unutrašnje i spoljašnje petlje je značajno poboljšalo rezultate \cite{loops}. 
 
-U nastavku su prikazane vizuelizacije rešenja za tri generisana test primera. Primeri su generisani sa sledećim osobinama:
+Vizuelizacija rešenja nalazi se na slikama \ref{fig:sl1}, \ref{fig:sl2}, i \ref{fig:sl3}. Primeri su generisani sa sledećim osobinama:
 \begin{itemize}
     \item zadaje se broj magacina i broj prodavnica
     \item lokacije magacina i prodavnica se generišu nasumično na mapi
@@ -277,6 +302,7 @@ U nastavku su prikazane vizuelizacije rešenja za tri generisana test primera. P
     \item potrebe prodavnica se nasumično generišu nad prethodno zadatim intervalom
     \item cena transporta od magacina do prodavnice je Euklidsko rastojanje između njihovih lokacija
 \end{itemize}
+
 Na levoj strani prikazane su prodavnice (crna kolica) i moguće lokacije za magacine (crveni upitnik), a na desnoj lokacije magacina koji će biti otvoreni, dobijene primenom algoritma. Karakteristike svakog od test primera navedene su ispod slike.
 
 \begin{figure}[H]
@@ -290,6 +316,7 @@ Na levoj strani prikazane su prodavnice (crna kolica) i moguće lokacije za maga
     \includegraphics[width=0.95\textwidth]{pics/final1.png}
 \end{subfigure}
 \caption[long]{Br. magacina: 20, br. prodavnica: 50,\\ cena u centru: 2000, cena inače: 1000}
+\label{fig:sl1}
 \end{figure}
 
 \begin{figure}[H]
@@ -303,6 +330,7 @@ Na levoj strani prikazane su prodavnice (crna kolica) i moguće lokacije za maga
     \includegraphics[width=0.95\textwidth]{pics/final2.png}
 \end{subfigure}
 \caption[long]{Br. magacina: 5, br. prodavnica: 40, \\cena u centru: 10000, cena inače: 5000}
+\label{fig:sl2}
 \end{figure}
 
 \begin{figure}[H]
@@ -316,6 +344,7 @@ Na levoj strani prikazane su prodavnice (crna kolica) i moguće lokacije za maga
     \includegraphics[width=0.95\textwidth]{pics/final3.png}
 \end{subfigure}
 \caption[long]{Br. magacina: 20, br. prodavnica: 100,\\ cena u centru: 10000, cena inače: 6000}
+\label{fig:sl3}
 \end{figure}
 
 Vidimo da se magacini uglavnom raspoređuju ravnomerno po periferiji grada (slike 1 i 3), sem u slučaju kada jako mali broj magacina može obezbediti sve radnje (slika 2). Ovo ima smisla jedino ako je magacin u centru, jer je tada zbir udaljenosti do prodavnica najmanji, što je jeste ono što se pokazalo primerima. Inače, magacini se raspoređuju tako da je cena njihovog otvaranja manja, dakle na periferiji.
@@ -325,8 +354,10 @@ Mnoge studije ispituju efikasnost i optimalnost različitih algoritama pretrage 
 
 Iz priloženog možemo zaključiti da je teško izmeriti efikasnost metaheuristika i da ona može biti jako situaciona, ali da se tabu pretraga definitivno pokazala uporedivom sa drugim kvalitetnim tehnikama lokalne pretrage, te da se sama ili u hibridnom obliku može primeniti na mnoge probleme sa jako dobrim rezultatima.
 
+\newpage
+
 \section{Zaključak}
-Ispod svakog naslova mora bar jedan paragraf, ne sme naslov pa podnaslov odmah
+Na samom početku teksta upoznali smo se sa glavnim pojmovima i terminima bitnim za razumevanje algoritma. Dalje, prolazeći kroz njegove najbitnije karakteristike, utvrdili smo da ova metaheuristika, kao i koncept srednjeročne i dugoročne memorije pozivaju na korišćenje u rešavanju velikog broja različitih problema poznatih računarstvu. Uz navedene primere vidimo da su ideje tabu pretrage lako razumljive i jednostavne za implementaciju, pritom dajući prihvatljive, ili čak i dobre rezultate. Varijacije strategija koje bismo koristili su usko povezane sa samim problemom, te ga je potrebno podrobno razumeti i obraditi kako bi dobijeni rezultati bili što bolji. U dodatku je data relativno kratka implementacija problema N-dama u programskom jeziku Python, kako bi se čitalac podstakao na razmišljanje i dalje istraživanje praktičnih primena ovih koncepata.
 
 
 \addcontentsline{toc}{section}{Literatura}
@@ -336,6 +367,8 @@ Ispod svakog naslova mora bar jedan paragraf, ne sme naslov pa podnaslov odmah
 \bibliography{references}
 
 \appendix
-\section{Dodatak}
+\section{Dodatak - Testiranje parametara za N dama}
+\label{appendix:a}
+Kompletni rezultati urađenog testiranja se mogu naći na sledećem linku: \href{https://github.com/Min032/tabu-pretraga/blob/master/Tabu\%20dame.ipynb}{https://github.com/Min032/tabu-pretraga/blob/master/Tabu\%20dame.ipynb}
 
 \end{document}
