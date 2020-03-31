@@ -8,7 +8,10 @@
 \usepackage[unicode]{hyperref}
 \usepackage{placeins}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
 \usepackage{listings}
+\usepackage[justification=centering]{caption}
 \hypersetup{colorlinks,citecolor=green,filecolor=green,linkcolor=blue,urlcolor=blue}
 
 \usepackage{listings}
@@ -196,7 +199,7 @@ Ovo je osnovni oblik algoritma tabu pretrage, primenjen na problem N-dama. Prika
                     broj_prekrsaja(trenutna_konfiguracija + potez)]
 \end{lstlisting}
 
-Moguće je dodati i dugoročnu memoriju, tako što pamtimo konfiguracije sa malo prekršaja, na koje se možemo vraćati nakon određenog broja iteracija ili male promene u poboljšanju, i time restartovati pretragu od tog trenutka. Implementacija ovog problema u programskom jeziku Python priložena je uz rad. U ovoj konkretnoj implementaciji, dovoljna diverzifikacija je bila resetovanje pretrage i traženje optimalnog rešenja nad svim iteracijama. Parametri za broj resetovanja, broj iteracija svake pretrage i dužinu tabu liste određeni su ekperimentalno.
+Moguće je dodati i dugoročnu memoriju, tako što pamtimo konfiguracije sa malo prekršaja, na koje se možemo vraćati nakon određenog broja iteracija ili male promene u poboljšanju, i time restartovati pretragu od tog trenutka. Implementacija ovog problema u programskom jeziku Python priložena je uz rad. U ovoj konkretnoj implementaciji, dovoljna diverzifikacija je bila resetovanje pretrage i traženje optimalnog rešenja nad svim iteracijama. Parametri za broj resetovanja, broj iteracija svake pretrage i dužinu tabu liste određeni su eksperimentalno.
 
 \subsection{Primena tabu pretrage na CFLP}
 U svom najjednostavnijem obliku, \textbf{problem rasporeda objekata} (eng. \textit{facility location problem - FLP}) je problem nalaženja tačke na ravni, takve da je suma rastojanja od ove tačke do N ciljnih tačaka najmanja (\textbf{Veberov problem}) \cite{weber}. Kompleksije varijante ovog problema bave se postavljanjem više objekata, zadovoljavanjem ograničenja oko njihovih lokacija (npr. radioaktivni objekti ne smeju biti blizu naseljenih mesta) i optimizacijom dodatnih kriterijuma (npr. blizina konkurentnih objekata).\\
@@ -263,7 +266,59 @@ algoritam TabuPretraga:
     vrati minimalni_trosak, najbolje_resenje
 \end{lstlisting}
 
-Direktna implementacija ovog pseudokoda je uvek uspevala da poboljša početno rešenje, međutim često je bila jako neefikasna, i rešenja nisu mnogo napredovala. Diverzifikacija nije mnogo pomogla, kao ni podešavanje parametara dužine tabu liste i broja iteracija. Međutim, uvođenje unutrašnje i spoljašnje petlje[CITATIONS] je značajno poboljšalo rezultate [UBACITI TABELU]. 
+Direktna implementacija ovog pseudokoda je uvek uspevala da poboljša početno rešenje, međutim često je bila jako neefikasna, i rešenja nisu mnogo napredovala. Diverzifikacija nije mnogo pomogla, kao ni podešavanje parametara dužine tabu liste i broja iteracija. Međutim, uvođenje unutrašnje i spoljašnje petlje je značajno poboljšalo rezultate \cite{loops}. 
+
+U nastavku su prikazane vizuelizacije rešenja za tri generisana test primera. Primeri su generisani sa sledećim osobinama:
+\begin{itemize}
+    \item zadaje se broj magacina i broj prodavnica
+    \item lokacije magacina i prodavnica se generišu nasumično na mapi
+    \item zadaje se kapacitet magacina, koji je isti za sve
+    \item zadaje cena za otvaranje magacina u centru grada (skuplje), i cena za otvaranje inače (pod centrom grada smatra se unutrašnja četvrtina mapre)
+    \item potrebe prodavnica se nasumično generišu nad prethodno zadatim intervalom
+    \item cena transporta od magacina do prodavnice je Euklidsko rastojanje između njihovih lokacija
+\end{itemize}
+Na levoj strani prikazane su prodavnice (crna kolica) i moguće lokacije za magacine (crveni upitnik), a na desnoj lokacije magacina koji će biti otvoreni, dobijene primenom algoritma. Karakteristike svakog od test primera navedene su ispod slike.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{pics/candidates1.png}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{pics/final1.png}
+\end{subfigure}
+\caption[long]{Br. magacina: 20, br. prodavnica: 50,\\ cena u centru: 2000, cena inače: 1000}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{pics/candidates2.png}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{pics/final2.png}
+\end{subfigure}
+\caption[long]{Br. magacina: 5, br. prodavnica: 40, \\cena u centru: 10000, cena inače: 5000}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{pics/candidates3.png}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{pics/final3.png}
+\end{subfigure}
+\caption[long]{Br. magacina: 20, br. prodavnica: 100,\\ cena u centru: 10000, cena inače: 6000}
+\end{figure}
+
+Vidimo da se magacini uglavnom raspoređuju ravnomerno po periferiji grada (slike 1 i 3), sem u slučaju kada jako mali broj magacina može obezbediti sve radnje (slika 2). Ovo ima smisla jedino ako je magacin u centru, jer je tada zbir udaljenosti do prodavnica najmanji, što je jeste ono što se pokazalo primerima. Inače, magacini se raspoređuju tako da je cena njihovog otvaranja manja, dakle na periferiji.
 
 \section{Poređenje tabu pretrage sa drugim algoritmima pretrage}
 Mnoge studije ispituju efikasnost i optimalnost različitih algoritama pretrage na različitim problemima. Kada je u pitanju tabu pretraga, neka istraživanja su pronašla da je ona za ispitivane probleme vidno bolja heuristika, \cite{comptabubetter} dok su druga zaključila da je kvalitet situacion i da zavisi od dimenzija i oblika problema. \cite{comptabusimilar}\cite{comptabugoodperformance} Pri tome je nekoliko istraživača došlo do zaključka da tabu pretraga često daje nešto manje optimalna rešenja sa boljom efikasnošću, dok algoritmi kao što je simulirano kaljenje daju optimalnija rešenja, ali je vreme izvršavanja duže. \cite{comptabubettertimeworseresult} Postoje i istraživanja koja tvrde da je tabu pretraga manje efikasnija od drugih algoritama. \cite{comptabuworse}\\
