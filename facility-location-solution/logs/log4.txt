@@ -1,0 +1,10 @@
+26433.03799467951
+[True, False, False, False, False, False, False, False, False, False, False, True, False, False, False, False, False, False, False, False]
+24911.50713063542
+[False, False, False, False, False, False, False, False, False, False, False, False, False, False, True, False, False, False, True, False]
+24882.868365035538
+[False, False, False, False, False, False, False, False, False, True, False, True, False, False, False, False, False, False, False, False]
+24304.895144604317
+[False, False, False, False, False, False, False, True, False, False, False, False, False, False, True, False, False, False, False, False]
+23856.88234909937
+[False, False, False, False, False, False, False, False, False, False, False, True, False, False, True, False, False, False, False, False]

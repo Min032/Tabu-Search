@@ -1,0 +1,8 @@
+25549.355781122802
+[False, False, True, False, False]
+24431.790150435183
+[False, False, False, True, False]
+23793.69101941068
+[False, True, False, False, False]
+23793.691019410675
+[False, True, False, False, False]
