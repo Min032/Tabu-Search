@@ -1,9 +1,9 @@
 # Tabu Search
 
-Language: Serbian  <br>
-Written in: Latex <br>
-Faculty of Mathematics, University of Belgrade <br>
-2020. <br>
+Language: **Serbian**  <br>
+Written in: **Latex** <br>
+**Faculty of Mathematics, University of Belgrade** <br>
+**2020** <br>
 
 Team members:
 * <b> Mina Krivokuća </b>
